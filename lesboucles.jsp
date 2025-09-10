@@ -29,7 +29,13 @@
 <p>Ecrire le code afin de produire un carré d'étoile</p>
 <p>Exemple si l'utilisateur saisie le valeur 5</p>
 <p>*****</br>*****</br>*****</br>*****</br>*****</p>
-<% int cpt = Integer.parseInt(valeur); %>
+<% String valeur = request.getParameter("valeur"); %>
+
+<%-- Vérification de l'existence de la valeur --%>
+<% if (valeur != null && !valeur.isEmpty()) { %>
+
+<%-- Boucle for pour afficher une ligne d'étoiles --%>
+    <%int cpt = Integer.parseInt(valeur); %>
 <p>
  <% for (int i = 1; i <= cpt; i++) { %>
             <% for (int j = 1; j <= cpt; j++) { %>
