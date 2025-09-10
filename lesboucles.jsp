@@ -7,7 +7,7 @@
 <h1>Exercices sur les boucles</h1>
 <form action="#" method="post">
     <label for="inputValeur">Saisir le nombre d'étoiles : </label>
-    <input type="text" id="inputValeur" name="valeur">
+    <input type="text" id="inputValeur" name="valeur
     <input type="submit" value="Afficher">
 </form>
 
@@ -137,6 +137,11 @@
 <p>5 x 5 = 25</p>
 
 <% } %>
+<p>
+<% for (int i = 1; i <= cpt; i++) { %>
+    <p><%= cpt %> x <%= i %> = <%= cpt * i %></p>
+<% } %>
+<p/>
 <p><a href="index.html">Retour au sommaire</a></p>
 </body>
 </html>
