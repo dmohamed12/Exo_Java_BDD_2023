@@ -30,7 +30,6 @@
 <p>Exemple si l'utilisateur saisie le valeur 5</p>
 <p>*****</br>*****</br>*****</br>*****</br>*****</p>
 <%-- Boucle for pour afficher une ligne d'étoiles --%>
-    <%int cpt = Integer.parseInt(valeur); %>
 <p>
  <% for (int i = 1; i <= cpt; i++) { %>
             <% for (int j = 1; j <= cpt; j++) { %>
