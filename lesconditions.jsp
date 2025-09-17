@@ -6,64 +6,45 @@
 <body bgcolor=white>
 <h1>Exercices sur les conditions</h1>
 <form action="#" method="post">
-    <p>Saisir la valeur 1 : <input type="text" id="inputValeur" name="valeur1">
-    <p>Saisir la valeur 2 : <input type="text" id="inputValeur" name="valeur2">
-    <p>Saisir la valeur A : <input type="text" name="valeurA"></p>
-    <p>Saisir la valeur B : <input type="text" name="valeurB"></p>
-    <p>Saisir la valeur C : <input type="text" name="valeurC"></p>
-    <p>Saisir un nombre pour pair/impair : <input type="text" name="valeurPair"></p>
+    <p>Saisir la valeur A : <input type="text" id="inputValeur" name="valeurA">
+    <p>Saisir la valeur B : <input type="text" id="inputValeur" name="valeurB">
+    <p>Saisir la valeur C : <input type="text" id="inputValeur" name="valeurC">
+    <p>Saisir un nombre pour vérifier Pair/Impair : <input type="text" name="valeurPair">
     <p><input type="submit" value="Afficher">
 </form>
 <%-- Récupération des valeurs --%>
-    <% String valeur1 = request.getParameter("valeur1"); %>
-    <% String valeur2 = request.getParameter("valeur2"); %>
+    <% String valeurA = request.getParameter("valeurA"); %>
+    <% String valeurB = request.getParameter("valeurB"); %>
+    <% String valeurC = request.getParameter("valeurC"); %>
+    <% String valeurPair = request.getParameter("valeurPair"); %>
 
-    <%-- Vérification de la condition entre les deux valeurs --%>
-    <% if (valeur1 != null && valeur2 != null) { %>
-        <%-- Conversion des valeurs en entiers pour la comparaison --%>
-        <% int intValeur1 = Integer.parseInt(valeur1); %>
-        <% int intValeur2 = Integer.parseInt(valeur2); %>
-        
-        <%-- Condition if pour comparer les valeurs --%>
-        <% if (intValeur1 > intValeur2) { %>
-            <p>Valeur 1 est supérieure à Valeur 2.</p>
-        <% } else if (intValeur1 < intValeur2) { %>
-            <p>Valeur 1 est inférieure à Valeur 2.</p>
-        <% } else { %>
-            <p>Valeur 1 est égale à Valeur 2.</p>
-        <% } %>
-   
-    
+    <%-- Vérification de la condition entre les 3 valeurs --%>
+    <% if (valeurA != null && valeurB != null && valeurC != null && !valeurA.isEmpty() && !valeurB.isEmpty() && !valeurC.isEmpty()) { %>
+
+        <% int A = Integer.parseInt(valeurA); %>
+        <% int B = Integer.parseInt(valeurB); %>
+        <% int C = Integer.parseInt(valeurC); %>
+
 <h2>Exercice 1 : Comparaison 1</h2>
-<p>Ecrire un programme qui demande à l'utilisateur de saisir 3 valeurs (des chiffres),</br>
-A, B et C et dites nous si la valeur de C est comprise entre A et B.</br>
-Exemple :</br>
-A = 10</br>
-B = 20</br>
-C = 15</br>
-Oui C est compris entre A et B</p>
-<%
-    if (valeurA != null && valeurB != null && valeurC != null) {
-        int A = Integer.parseInt(valeurA);
-        int B = Integer.parseInt(valeurB);
-        int C = Integer.parseInt(valeurC);
+<p>A = <%= A %>, B = <%= B %>, C = <%= C %></p>
+    <% if ((C >= A && C <= B) || (C >= B && C <= A)) { %>
+        <p>Oui,C est compris entre A et B.</p>
+    <% } else { %>
+        <p>Non, C n'est pas compris entre A et B.</p>
+    <% } %>
+<% } %>
 
-        if (C >= Math.min(A, B) && C <= Math.max(A, B)) {
-%>
-            <p>Oui, C (= <%= C %>) est compris entre A (= <%= A %>) et B (= <%= B %>).</p>
-<%
-        } else {
-%>
-            <p>Non, C (= <%= C %>) n’est pas compris entre A (= <%= A %>) et B (= <%= B %>).</p>
-<%
-        }
-    }
-%>
-
+<%-- Vérification de la saisie pour Exercice 2 --%>
+<% if (valeurPair != null && !valeurPair.isEmpty()) { %>
+    <% int nbre = Integer.parseInt(valeurPair); %>
 
 <h2>Exercice 2 : Pair ou Impair ?</h2>
-<p>Écrivez un programme pour vérifier si un nombre est pair ou impair en utilisant une structure if</p>
-
+<p>Le nombre saisi est <%= nbre %>.</p>
+    <% if (nbre % 2 == 0) { %>
+        <p> Ce nombre est pair.</p>
+    <% } else { %>
+        <p> Ce nombre est impair.</p>
+    <% } %>
 <% } %>
 <p><a href="index.html">Retour au sommaire</a></p>
 </body>
