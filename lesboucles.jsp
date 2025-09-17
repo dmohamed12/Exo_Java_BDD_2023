@@ -18,13 +18,14 @@
         int cpt = Integer.parseInt(valeur);
 %>
 
+<h2>Exercice initial : Affichage simple d'étoiles</h2>
 <p>
 <% for (int i = 1; i <= cpt; i++) { %>
     <%= "*" %>
 <% } %>
 </p>
 
-<h2>Exercice 1 : Le carré d'étoiles</h2>
+<h2>Exercice 1 : Carré d'étoiles</h2>
 <p>
 <% for (int i = 1; i <= cpt; i++) { %>
     <% for (int j = 1; j <= cpt; j++) { %>
