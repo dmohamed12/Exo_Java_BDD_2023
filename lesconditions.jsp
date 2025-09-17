@@ -8,6 +8,10 @@
 <form action="#" method="post">
     <p>Saisir la valeur 1 : <input type="text" id="inputValeur" name="valeur1">
     <p>Saisir la valeur 2 : <input type="text" id="inputValeur" name="valeur2">
+    <p>Saisir la valeur A : <input type="text" name="valeurA"></p>
+    <p>Saisir la valeur B : <input type="text" name="valeurB"></p>
+    <p>Saisir la valeur C : <input type="text" name="valeurC"></p>
+    <p>Saisir un nombre pour pair/impair : <input type="text" name="valeurPair"></p>
     <p><input type="submit" value="Afficher">
 </form>
 <%-- Récupération des valeurs --%>
@@ -39,18 +43,20 @@ B = 20</br>
 C = 15</br>
 Oui C est compris entre A et B</p>
 <%
-    int A = Integer.parseInt(valeurA);
-    int B = Integer.parseInt(valeurB);
-    int C = Integer.parseInt(valeurC);
+    if (valeurA != null && valeurB != null && valeurC != null) {
+        int A = Integer.parseInt(valeurA);
+        int B = Integer.parseInt(valeurB);
+        int C = Integer.parseInt(valeurC);
 
-    if (C >= Math.min(A, B) && C <= Math.max(A, B)) {
+        if (C >= Math.min(A, B) && C <= Math.max(A, B)) {
 %>
-        <p>Oui, C (= <%= C %>) est compris entre A (= <%= A %>) et B (= <%= B %>).</p>
+            <p>Oui, C (= <%= C %>) est compris entre A (= <%= A %>) et B (= <%= B %>).</p>
 <%
-    } else {
+        } else {
 %>
-        <p>Non, C (= <%= C %>) n’est pas compris entre A (= <%= A %>) et B (= <%= B %>).</p>
+            <p>Non, C (= <%= C %>) n’est pas compris entre A (= <%= A %>) et B (= <%= B %>).</p>
 <%
+        }
     }
 %>
 
