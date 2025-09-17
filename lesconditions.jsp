@@ -38,6 +38,22 @@ A = 10</br>
 B = 20</br>
 C = 15</br>
 Oui C est compris entre A et B</p>
+<%
+    int A = Integer.parseInt(valeurA);
+    int B = Integer.parseInt(valeurB);
+    int C = Integer.parseInt(valeurC);
+
+    if (C >= Math.min(A, B) && C <= Math.max(A, B)) {
+%>
+        <p>Oui, C (= <%= C %>) est compris entre A (= <%= A %>) et B (= <%= B %>).</p>
+<%
+    } else {
+%>
+        <p>Non, C (= <%= C %>) n’est pas compris entre A (= <%= A %>) et B (= <%= B %>).</p>
+<%
+    }
+%>
+
 
 <h2>Exercice 2 : Pair ou Impair ?</h2>
 <p>Écrivez un programme pour vérifier si un nombre est pair ou impair en utilisant une structure if</p>
