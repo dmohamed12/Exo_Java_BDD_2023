@@ -4,23 +4,73 @@
 <html>
 <head>
   <title>Gestionnaire de Tâches</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f4f6f8;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    form {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    input, button {
+      margin-top: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 30px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr.terminée {
+      background-color: #c6f6c6;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+      color: #007BFF;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<body>
 
+<body>
 <h1>Gestionnaire de Tâches</h1>
 
-<!-- Formulaire d'ajout -->
+<!-- Formulaire -->
 <form method="post">
-  <label>Titre :</label>
-  <input type="text" name="titre" required><br><br>
+  <label>Titre :</label><br>
+  <input type="text" name="titre" required><br>
 
-  <label>Description :</label>
-  <input type="text" name="desc" required><br><br>
+  <label>Description :</label><br>
+  <input type="text" name="desc" required><br>
 
-  <label>Date d'échéance :</label>
-  <input type="date" name="date" required><br><br>
+  <label>Date d’échéance :</label><br>
+  <input type="date" name="date"><br>
 
   <input type="submit" name="ajouter" value="Ajouter la tâche">
+  <input type="submit" name="reset" value="Réinitialiser la liste">
 </form>
 
 <%! 
@@ -31,10 +81,10 @@ class Tache {
   boolean terminee;
 
   Tache(String t, String d, LocalDate dt) {
-    this.titre = t;
-    this.desc = d;
-    this.date = dt;
-    this.terminee = false;
+    titre = t;
+    desc = d;
+    date = dt;
+    terminee = false;
   }
 }
 %>
@@ -42,7 +92,7 @@ class Tache {
 <%
 request.setCharacterEncoding("UTF-8");
 
-// Récupération de la liste depuis la session
+// Récupérer la liste depuis la session
 ArrayList<Tache> taches = (ArrayList<Tache>) session.getAttribute("taches");
 if (taches == null) {
   taches = new ArrayList<Tache>();
@@ -53,7 +103,8 @@ if (taches == null) {
 if (request.getParameter("ajouter") != null) {
   String titre = request.getParameter("titre");
   String desc = request.getParameter("desc");
-  LocalDate date = LocalDate.parse(request.getParameter("date"));
+  String dateStr = request.getParameter("date");
+  LocalDate date = (dateStr == null || dateStr.isEmpty()) ? LocalDate.now() : LocalDate.parse(dateStr);
   taches.add(new Tache(titre, desc, date));
 }
 
@@ -72,40 +123,54 @@ if (request.getParameter("terminer") != null) {
     taches.get(index).terminee = true;
   }
 }
+
+// Réinitialiser toutes les tâches
+if (request.getParameter("reset") != null) {
+  taches.clear();
+}
 %>
 
 <hr>
-
-<h2>Liste des Tâches</h2>
-<table border="1" cellpadding="5">
-<tr>
-  <th>#</th>
-  <th>Titre</th>
-  <th>Description</th>
-  <th>Date d’échéance</th>
-  <th>Statut</th>
-  <th>Actions</th>
-</tr>
+<h2>Liste des tâches</h2>
 
 <%
-for (int i = 0; i < taches.size(); i++) {
-  Tache t = taches.get(i);
+if (taches.isEmpty()) {
 %>
-<tr bgcolor="<%= t.terminee ? "#ccffcc" : "#ffffff" %>">
-  <td><%= i + 1 %></td>
-  <td><%= t.titre %></td>
-  <td><%= t.desc %></td>
-  <td><%= t.date %></td>
-  <td><%= t.terminee ? "Terminée" : "En cours" %></td>
-  <td>
-    <% if (!t.terminee) { %>
-      <a href="?terminer=<%= i %>">Terminer</a>
-    <% } %>
-    <a href="?supprimer=<%= i %>">Supprimer</a>
-  </td>
-</tr>
+  <p>Aucune tâche pour le moment ✅</p>
+<%
+} else {
+  // Trier : les tâches non terminées en premier
+  taches.sort((a, b) -> Boolean.compare(a.terminee, b.terminee));
+%>
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Titre</th>
+      <th>Description</th>
+      <th>Date</th>
+      <th>Statut</th>
+      <th>Actions</th>
+    </tr>
+  <%
+  for (int i = 0; i < taches.size(); i++) {
+    Tache t = taches.get(i);
+  %>
+    <tr class="<%= t.terminee ? "terminée" : "" %>">
+      <td><%= i + 1 %></td>
+      <td><%= t.titre %></td>
+      <td><%= t.desc %></td>
+      <td><%= t.date %></td>
+      <td><%= t.terminee ? "Terminée" : "En cours" %></td>
+      <td>
+        <% if (!t.terminee) { %>
+          <a href="?terminer=<%= i %>">Terminer</a> |
+        <% } %>
+        <a href="?supprimer=<%= i %>">Supprimer</a>
+      </td>
+    </tr>
+  <% } %>
+  </table>
 <% } %>
-</table>
 
 </body>
 </html>
