@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<h1>📋 Mini Gestionnaire de Tâches</h1>
+<h1>Mini Gestionnaire de Tâches</h1>
 
 <!-- Formulaire d'ajout -->
 <form method="post">
